@@ -8,7 +8,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author 1miss
+ * @author mission dura
+ * lmuid: 23048635
  */
 public class Log_in extends javax.swing.JFrame {
 
@@ -238,14 +239,19 @@ public class Log_in extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
         
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
+        int lengths = txtFldPwd.getText().length(); // length of the password for validating
         if(txtFldPwd.getText().isEmpty() || txtFieldUsername.getText().isEmpty())
                 {
                    JOptionPane.showMessageDialog(rootPane,"Please Fill all required information!","Alert",JOptionPane.WARNING_MESSAGE);    
                 }
+        
+        else if(lengths > 8){
+                JOptionPane.showMessageDialog(rootPane,"The Password exceeds 8 digits.It must be 8 digits either (ABC,abc or 123)!","Alert",JOptionPane.WARNING_MESSAGE);
+        }
         else{
               hostelapp adminapp = new hostelapp();   
-                if( "admin".equals(txtFldPwd.getText())){
-                    adminapp.setVisible(true);
+                if( "admin".equals(txtFldPwd.getText())){       //validation for username and password
+                    adminapp.setVisible(true);  //allow user to admin portal
                     dispose();
         }   else{
                     JOptionPane.showMessageDialog(rootPane,"Password is incorrect","Alert",JOptionPane.WARNING_MESSAGE);
@@ -263,7 +269,7 @@ public class Log_in extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnSignUpActionPerformed
 
     private void ChckBxShwPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChckBxShwPwdActionPerformed
-    if(ChckBxShwPwd.isSelected()){
+    if(ChckBxShwPwd.isSelected()){          // password encryption
         txtFldPwd.setEchoChar((char)0);
     }
     else{

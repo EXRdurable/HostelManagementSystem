@@ -6,9 +6,10 @@ package com.hostelapp.model;
 
 /**
  *
- * @author 1miss
+ * @author mission dura
+ * lmuid: 23048635
  */
-public class hostelmodel {
+public class hostelmodel {  
     int hosteler_No;
     String hosteler_name;
     String address;

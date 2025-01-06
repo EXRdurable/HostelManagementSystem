@@ -5,31 +5,46 @@
 package com.hostelapp.view;
 
 
+import com.hostelapp.controller.algorithm.binarySearch;
+import com.hostelapp.controller.algorithm.insertionSort;
+import com.hostelapp.controller.algorithm.mergeSort;
+import com.hostelapp.controller.algorithm.selectionSort;
 import com.hostelapp.model.hostelmodel;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author 1miss
+ * @author mission dura
+ * lmuid: 23048635
  */
 public class hostelapp extends javax.swing.JFrame {
     ArrayList<hostelmodel> hosteler = new ArrayList<hostelmodel>(); //arraylist for hostel table
-    LinkedList<hostelmodel> rooms = new LinkedList<hostelmodel>();
-    ArrayList<hostelmodel> bookings = new ArrayList<hostelmodel>();
-    private DefaultTableModel tableModel;
+    LinkedList<hostelmodel> rooms = new LinkedList<hostelmodel>();  //arraylist for room table
+    ArrayList<hostelmodel> bookings = new ArrayList<hostelmodel>(); //arraylist for booking table
+    private DefaultTableModel tableModelhosteler; 
+    private DefaultTableModel tableModelrooms;
+    private DefaultTableModel tableModelbookings;
+    // Declaration of sorting algorithm objects
+    selectionSort SelectionSorting = new selectionSort();
+    insertionSort InsertionSorting = new insertionSort();
+    mergeSort mergeSorting = new mergeSort();
+    
+    // Declaration of a binary search utility object
+    binarySearch searcher = new binarySearch();
     /**
      
      */
     public hostelapp() {
         initComponents();
-        tableModel = (DefaultTableModel) TableHosteler.getModel();
+        tableModelhosteler = (DefaultTableModel) TableHosteler.getModel(); // Initialize the table model for hostelers using the model from the hosteler table component
         addInitialHostelerInformation();
-        tableModel = (DefaultTableModel) TableRoom.getModel();
+        tableModelrooms = (DefaultTableModel) TableRoom.getModel(); // Initialize the table model for rooms using the model from the room table component
         addInitialRoomInformation();
-        tableModel = (DefaultTableModel) TableBookings.getModel();
+        tableModelbookings = (DefaultTableModel) TableBookings.getModel();// Initialize the table model for bookings using the model from the bookings table component
         addInitialBookingsInformation();
     }
     private void addInitialHostelerInformation()
@@ -39,8 +54,8 @@ public class hostelapp extends javax.swing.JFrame {
         hostelmodel Hosteler3 = new hostelmodel(3678,"Shyam","Lumbuni",891230L);
         hostelmodel Hosteler4 = new hostelmodel(3678,"Shuva","Chitwan",4891230L);
         hostelmodel Hosteler5 = new hostelmodel(378,"Shivam","Narayani",45678L);
-        hosteler.add(Hosteler1);
-        addDataToHostelerTable(Hosteler1);
+        hosteler.add(Hosteler1); // Add Hosteler data to the hosteler list
+        addDataToHostelerTable(Hosteler1); // Add Hosteler's data to the hosteler table in the GUI
         hosteler.add(Hosteler2);
         addDataToHostelerTable(Hosteler2);
         hosteler.add(Hosteler3);
@@ -52,8 +67,8 @@ public class hostelapp extends javax.swing.JFrame {
     }
     private void addDataToHostelerTable(hostelmodel hosteler)
     {
-        tableModel = (DefaultTableModel) TableHosteler.getModel();
-        tableModel.addRow(new Object[]{hosteler.getHosteler_No(), hosteler.getHosteler_name(), hosteler.getAddress(), hosteler.getContact_No()});
+        tableModelhosteler = (DefaultTableModel) TableHosteler.getModel();
+        tableModelhosteler.addRow(new Object[]{hosteler.getHosteler_No(), hosteler.getHosteler_name(), hosteler.getAddress(), hosteler.getContact_No()}); // Add a new row to the hosteler table with the hosteler's details
     }
     private void addInitialRoomInformation()
     {
@@ -63,8 +78,8 @@ public class hostelapp extends javax.swing.JFrame {
         hostelmodel Room4 = new hostelmodel(45,4,"238,145,216,19",24);
         hostelmodel Room5 = new hostelmodel(55,4,"218,45,16,79",14);
 
-        rooms.add(Room1);
-        addDataToRoomTable(Room1);
+        rooms.add(Room1);   // Add room data to the hosteler list
+        addDataToRoomTable(Room1);  // Add room's data to the room table in the GUI
         rooms.add(Room2);
         addDataToRoomTable(Room2);
         rooms.add(Room3);
@@ -76,8 +91,8 @@ public class hostelapp extends javax.swing.JFrame {
     }
     private void addDataToRoomTable(hostelmodel rooms)
     {
-        tableModel = (DefaultTableModel) TableRoom.getModel();
-        tableModel.addRow(new Object[]{rooms.getRoom_No(), rooms.getTotal_Users(), rooms.getUsersId(), rooms.getCalllineno()});
+        tableModelrooms = (DefaultTableModel) TableRoom.getModel();
+        tableModelrooms.addRow(new Object[]{rooms.getRoom_No(), rooms.getTotal_Users(), rooms.getUsersId(), rooms.getCalllineno()});// Add a new row to the room table with the room's details
     }
     private void addInitialBookingsInformation()
     {
@@ -86,8 +101,8 @@ public class hostelapp extends javax.swing.JFrame {
         hostelmodel Bookings3 = new hostelmodel(3,"Shyam","Male",132343L,"Vietnam");
         hostelmodel Bookings4 = new hostelmodel(4,"Karan","Male",343L,"Norway");
         hostelmodel Bookings5 = new hostelmodel(5,"Shuva","Male",343L,"Antartica");
-        bookings.add(Bookings1);
-        addDataToBookingsTable(Bookings1);
+        bookings.add(Bookings1);    // Add a new row to the booking table with the booking's details
+        addDataToBookingsTable(Bookings1);  // Add booking's data to the room table in the GUI
         bookings.add(Bookings2);
         addDataToBookingsTable(Bookings2);
         bookings.add(Bookings3);
@@ -99,8 +114,8 @@ public class hostelapp extends javax.swing.JFrame {
     }
     private void addDataToBookingsTable(hostelmodel bookings)
     {
-        tableModel = (DefaultTableModel) TableBookings.getModel();
-        tableModel.addRow(new Object[]{bookings.getId(),bookings.getName(), bookings.getGender(), bookings.getBookings_contact_no(), bookings.getBookings_address()});
+        tableModelbookings = (DefaultTableModel) TableBookings.getModel();
+        tableModelbookings.addRow(new Object[]{bookings.getId(),bookings.getName(), bookings.getGender(), bookings.getBookings_contact_no(), bookings.getBookings_address()}); // Add a new row to the booking table with the booking's details
     }
 
 
@@ -152,6 +167,10 @@ public class hostelapp extends javax.swing.JFrame {
         BtnAddHstlr = new javax.swing.JButton();
         BtnRemoveHstlr = new javax.swing.JButton();
         BtnUpdtHstlr = new javax.swing.JButton();
+        txtFldSearchHosteler = new javax.swing.JTextField();
+        cmbBxsortbyhosteler = new javax.swing.JComboBox<>();
+        jBtnsortHstlr = new javax.swing.JButton();
+        jBtnSearchhstlr = new javax.swing.JButton();
         PnlRoomEdit = new javax.swing.JPanel();
         ScrollPnTableGHldr = new javax.swing.JScrollPane();
         TableRoom = new javax.swing.JTable();
@@ -162,6 +181,10 @@ public class hostelapp extends javax.swing.JFrame {
         BtnAddRoom = new javax.swing.JButton();
         BtnRmvRoom = new javax.swing.JButton();
         BtnUpdroom = new javax.swing.JButton();
+        txtFldSearchRooms = new javax.swing.JTextField();
+        btnSearchRooms = new javax.swing.JButton();
+        btnSortrooms = new javax.swing.JButton();
+        cmbBxsortbyRooms = new javax.swing.JComboBox<>();
         PnlBookingEdit = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableBookings = new javax.swing.JTable();
@@ -173,6 +196,10 @@ public class hostelapp extends javax.swing.JFrame {
         BtnBkngsUpdate = new javax.swing.JButton();
         TxtFldBkngsId = new javax.swing.JTextField();
         BtnBkngsRemove = new javax.swing.JButton();
+        txtFldSearchBookings = new javax.swing.JTextField();
+        btnSearchBkngs = new javax.swing.JButton();
+        btnSortbookings = new javax.swing.JButton();
+        cmbBxsortbyBookings = new javax.swing.JComboBox<>();
         PnlLogoHldr = new javax.swing.JPanel();
         LblLogo = new javax.swing.JLabel();
         lblMainHeading = new javax.swing.JLabel();
@@ -347,7 +374,7 @@ public class hostelapp extends javax.swing.JFrame {
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         TbdPnMain.addTab("Home Page", PnlHome);
@@ -510,7 +537,7 @@ public class hostelapp extends javax.swing.JFrame {
                 .addGroup(PnlNoticemainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PnlNoticbg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PnlSystmMnt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         TbdPnMain.addTab("Notice Board", PnlNoticemain);
@@ -580,46 +607,94 @@ public class hostelapp extends javax.swing.JFrame {
             }
         });
 
+        txtFldSearchHosteler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldSearchHostelerActionPerformed(evt);
+            }
+        });
+
+        cmbBxsortbyhosteler.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascending", "Descending" }));
+        cmbBxsortbyhosteler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBxsortbyhostelerActionPerformed(evt);
+            }
+        });
+
+        jBtnsortHstlr.setText("Sort");
+        jBtnsortHstlr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnsortHstlrActionPerformed(evt);
+            }
+        });
+
+        jBtnSearchhstlr.setText("Search");
+        jBtnSearchhstlr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSearchhstlrActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnlHstlrEditLayout = new javax.swing.GroupLayout(PnlHstlrEdit);
         PnlHstlrEdit.setLayout(PnlHstlrEditLayout);
         PnlHstlrEditLayout.setHorizontalGroup(
             PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ScrlPnHstlrtablehldr, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlHstlrEditLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(TxtfldHstlrNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                .addComponent(TxtfldHstlrName, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addComponent(TxtfldHstlrAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(TxtfldHstlrCntcNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
             .addGroup(PnlHstlrEditLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(BtnAddHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BtnRemoveHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(160, 160, 160)
-                .addComponent(BtnUpdtHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addContainerGap()
+                .addGroup(PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlHstlrEditLayout.createSequentialGroup()
+                        .addComponent(BtnAddHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(138, 138, 138)
+                        .addComponent(BtnRemoveHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(156, 156, 156)
+                        .addComponent(BtnUpdtHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PnlHstlrEditLayout.createSequentialGroup()
+                        .addComponent(TxtfldHstlrNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(TxtfldHstlrName, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(TxtfldHstlrAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addComponent(TxtfldHstlrCntcNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlHstlrEditLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbBxsortbyhosteler, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBtnsortHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(219, 219, 219)
+                .addComponent(txtFldSearchHosteler, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBtnSearchhstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         PnlHstlrEditLayout.setVerticalGroup(
             PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlHstlrEditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PnlHstlrEditLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBtnsortHstlr))
+                    .addGroup(PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtFldSearchHosteler, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnSearchhstlr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cmbBxsortbyhosteler))
+                .addGap(7, 7, 7)
                 .addComponent(ScrlPnHstlrtablehldr, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(31, 31, 31)
                 .addGroup(PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtfldHstlrNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtfldHstlrAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtfldHstlrCntcNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtfldHstlrName, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                    .addComponent(TxtfldHstlrName, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtfldHstlrCntcNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addGroup(PnlHstlrEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnAddHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnRemoveHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnUpdtHstlr, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 50, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
         );
 
         tbdPnAdminedit.addTab("Hosteler Edit", PnlHstlrEdit);
@@ -685,48 +760,82 @@ public class hostelapp extends javax.swing.JFrame {
             }
         });
 
+        btnSearchRooms.setText("Search");
+        btnSearchRooms.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchRoomsActionPerformed(evt);
+            }
+        });
+
+        btnSortrooms.setText("Sort");
+        btnSortrooms.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortroomsActionPerformed(evt);
+            }
+        });
+
+        cmbBxsortbyRooms.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascending", "Descending" }));
+
         javax.swing.GroupLayout PnlRoomEditLayout = new javax.swing.GroupLayout(PnlRoomEdit);
         PnlRoomEdit.setLayout(PnlRoomEditLayout);
         PnlRoomEditLayout.setHorizontalGroup(
             PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ScrollPnTableGHldr)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlRoomEditLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlRoomEditLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(TxtfldRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(TxtfldttlUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
-                        .addComponent(TxtfldUsersId, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))
-                    .addGroup(PnlRoomEditLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
                         .addComponent(BtnAddRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(233, 233, 233)
                         .addComponent(BtnRmvRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(186, 186, 186)))
-                .addGroup(PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BtnUpdroom, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtFldCallLineNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnUpdroom, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))
+                    .addGroup(PnlRoomEditLayout.createSequentialGroup()
+                        .addComponent(TxtfldRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(TxtfldttlUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(TxtfldUsersId, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                        .addComponent(TxtFldCallLineNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65))))
+            .addGroup(PnlRoomEditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ScrollPnTableGHldr))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlRoomEditLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbBxsortbyRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSortrooms)
+                .addGap(223, 223, 223)
+                .addComponent(txtFldSearchRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSearchRooms)
+                .addGap(83, 83, 83))
         );
         PnlRoomEditLayout.setVerticalGroup(
             PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlRoomEditLayout.createSequentialGroup()
-                .addComponent(ScrollPnTableGHldr, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxtfldUsersId, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtFldCallLineNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldSearchRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearchRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSortrooms)
+                    .addComponent(cmbBxsortbyRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ScrollPnTableGHldr, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtfldRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtfldttlUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
+                    .addComponent(TxtfldttlUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtfldUsersId, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtFldCallLineNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(PnlRoomEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnAddRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnRmvRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnUpdroom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 77, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
         );
 
         tbdPnAdminedit.addTab("Room Edit", PnlRoomEdit);
@@ -795,6 +904,22 @@ public class hostelapp extends javax.swing.JFrame {
             }
         });
 
+        btnSearchBkngs.setText("Search");
+        btnSearchBkngs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchBkngsActionPerformed(evt);
+            }
+        });
+
+        btnSortbookings.setText("Sort");
+        btnSortbookings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortbookingsActionPerformed(evt);
+            }
+        });
+
+        cmbBxsortbyBookings.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascending", "Descending" }));
+
         javax.swing.GroupLayout PnlBookingEditLayout = new javax.swing.GroupLayout(PnlBookingEdit);
         PnlBookingEdit.setLayout(PnlBookingEditLayout);
         PnlBookingEditLayout.setHorizontalGroup(
@@ -803,50 +928,74 @@ public class hostelapp extends javax.swing.JFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlBookingEditLayout.createSequentialGroup()
-                .addContainerGap(290, Short.MAX_VALUE)
-                .addComponent(TxtFldBkngsName, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(225, 225, 225)
-                .addComponent(TxtFldBkngsCntctNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(273, 273, 273))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlBookingEditLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlBookingEditLayout.createSequentialGroup()
                         .addComponent(BtnBkngsAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(210, 210, 210)
+                        .addGap(209, 209, 209)
                         .addComponent(BtnBkngsRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(TxtFldBkngsCntctNo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(BtnBkngsUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
                     .addGroup(PnlBookingEditLayout.createSequentialGroup()
                         .addComponent(TxtFldBkngsId, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(TxtFldBkngsName, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(TxtFldBkngGender, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(194, 194, 194)))
-                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TxtFldBkngsAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlBookingEditLayout.createSequentialGroup()
-                        .addComponent(BtnBkngsUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
-                .addGap(30, 30, 30))
+                        .addGap(195, 195, 195)
+                        .addComponent(TxtFldBkngsAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnlBookingEditLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(cmbBxsortbyBookings, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSortbookings)
+                .addGap(139, 139, 139)
+                .addComponent(txtFldSearchBookings, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSearchBkngs)
+                .addGap(59, 59, 59))
         );
         PnlBookingEditLayout.setVerticalGroup(
             PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSearchBkngs, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSortbookings, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(txtFldSearchBookings)
+                    .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                        .addComponent(cmbBxsortbyBookings)
+                        .addGap(1, 1, 1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxtFldBkngGender, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtFldBkngsAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtFldBkngsId, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxtFldBkngsCntctNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtFldBkngsName, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnBkngsAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBkngsRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnBkngsUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                        .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TxtFldBkngGender, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TxtFldBkngsAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TxtFldBkngsCntctNo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50))
+                    .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                        .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(TxtFldBkngsName, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PnlBookingEditLayout.createSequentialGroup()
+                                .addComponent(TxtFldBkngsId, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)))
+                        .addGap(18, 18, 18)
+                        .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BtnBkngsAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnBkngsRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnBkngsUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31))))
         );
 
         tbdPnAdminedit.addTab("Bookings", PnlBookingEdit);
@@ -966,13 +1115,13 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {
                 hostelmodel room_info = new hostelmodel(id,name,gender,bookings_contact_no,bookings_address);
-                tableModel = (DefaultTableModel) TableBookings.getModel();
-                int rowCount = tableModel.getRowCount();
+                tableModelbookings = (DefaultTableModel) TableBookings.getModel();
+                int rowCount = tableModelbookings.getRowCount();
 
                 for (int i = 0; i < rowCount; i++){
 
-                    if (tableModel.getValueAt(i, 0).equals(id)) {
-                        tableModel.removeRow(i);
+                    if (tableModelbookings.getValueAt(i, 0).equals(id)) {
+                        tableModelbookings.removeRow(i);
                         bookings.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1017,13 +1166,13 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {
 
-                tableModel = (DefaultTableModel) TableBookings.getModel();
-                int rowCount = tableModel.getRowCount();
+                
+                int rowCount = tableModelbookings.getRowCount();
 
                 for (int i = 0; i < rowCount; i++){
 
-                    if (tableModel.getValueAt(i, 0).equals(id)) {
-                        tableModel.removeRow(i);
+                    if (tableModelbookings.getValueAt(i, 0).equals(id)) {
+                        tableModelbookings.removeRow(i);
                         bookings.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1116,13 +1265,13 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {
                 hostelmodel room_info = new hostelmodel(room_No,total_Users,usersId,calllineno);
-                tableModel = (DefaultTableModel) TableRoom.getModel();
-                int rowCount = tableModel.getRowCount();
+                
+                int rowCount = tableModelrooms.getRowCount();
 
                 for (int i = 0; i < rowCount; i++){
 
-                    if (tableModel.getValueAt(i, 0).equals(room_No)) {
-                        tableModel.removeRow(i);
+                    if (tableModelrooms.getValueAt(i, 0).equals(room_No)) {
+                        tableModelrooms.removeRow(i);
                         rooms.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1167,13 +1316,13 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {
 
-                tableModel = (DefaultTableModel) TableRoom.getModel();
-                int rowCount = tableModel.getRowCount();
+                
+                int rowCount = tableModelrooms.getRowCount();
 
                 for (int i = 0; i < rowCount; i++){
 
-                    if (tableModel.getValueAt(i, 0).equals(room_No)) {
-                        tableModel.removeRow(i);
+                    if (tableModelrooms.getValueAt(i, 0).equals(room_No)) {
+                        tableModelrooms.removeRow(i);
                         rooms.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1272,13 +1421,13 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {
                 hostelmodel hosteler_info = new hostelmodel(hosteler_No,hosteler_name,address,contact_No);
-                tableModel = (DefaultTableModel) TableHosteler.getModel();
-                int rowCount = tableModel.getRowCount();
+                
+                int rowCount = tableModelhosteler.getRowCount();
 
                 for (int i = 0; i < rowCount; i++){
 
-                    if (tableModel.getValueAt(i, 0).equals(hosteler_No)) {
-                        tableModel.removeRow(i);
+                    if (tableModelhosteler.getValueAt(i, 0).equals(hosteler_No)) {
+                        tableModelhosteler.removeRow(i);
                         hosteler.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1321,11 +1470,11 @@ public class hostelapp extends javax.swing.JFrame {
             if(left == true)
             {   
                 
-                tableModel = (DefaultTableModel) TableHosteler.getModel();
-                int rowCount = tableModel.getRowCount();
+                
+                int rowCount = tableModelhosteler.getRowCount();
                 for (int i = 0; i < rowCount; i++){
-                    if (tableModel.getValueAt(i, 0).equals(hosteler_No)) {
-                        tableModel.removeRow(i);
+                    if (tableModelhosteler.getValueAt(i, 0).equals(hosteler_No)) {
+                        tableModelhosteler.removeRow(i);
                         hosteler.remove(i);
                         break; // Exit loop after removing the row
                     }
@@ -1397,6 +1546,7 @@ public class hostelapp extends javax.swing.JFrame {
 
     private void TxtfldHstlrNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtfldHstlrNoActionPerformed
         // TODO add your handling code here:
+      
     }//GEN-LAST:event_TxtfldHstlrNoActionPerformed
 
     private void TxtfldHstlrAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtfldHstlrAddressActionPerformed
@@ -1406,6 +1556,181 @@ public class hostelapp extends javax.swing.JFrame {
     private void BtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExitActionPerformed
         dispose();
     }//GEN-LAST:event_BtnExitActionPerformed
+
+    private void txtFldSearchHostelerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldSearchHostelerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldSearchHostelerActionPerformed
+
+    private void cmbBxsortbyhostelerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBxsortbyhostelerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBxsortbyhostelerActionPerformed
+
+    private void jBtnsortHstlrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnsortHstlrActionPerformed
+        tableModelhosteler.setRowCount(0);  //clearing table 
+        String sortingmethod = (String) cmbBxsortbyhosteler.getSelectedItem();  
+        if(sortingmethod.equals("Ascending")){
+
+            List<hostelmodel> selectionSort = SelectionSorting.sortByhosteler_No(hosteler,false); //calling sort method
+            for(hostelmodel hostelers : selectionSort)
+            {
+            addDataToHostelerTable(hostelers);  //adding sorted list
+            }
+        }
+        else{
+
+            List<hostelmodel> selectionSort = SelectionSorting.sortByhosteler_No(hosteler,true);
+            for(hostelmodel hostelers : selectionSort)
+            {
+            addDataToHostelerTable(hostelers);  //adding sorted list
+            }
+        }
+    }//GEN-LAST:event_jBtnsortHstlrActionPerformed
+
+    private void btnSortroomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortroomsActionPerformed
+        
+        tableModelrooms.setRowCount(0);
+        String sortingmethod = (String) cmbBxsortbyRooms.getSelectedItem();
+        if(sortingmethod.equals("Ascending")){
+
+            List<hostelmodel> insertionSort = InsertionSorting.sortByRoom_No(rooms,false);//calling sort method
+            for(hostelmodel roomlist : insertionSort)
+            {
+            addDataToRoomTable(roomlist);//adding sorted list
+            }
+        }
+        else{
+
+            List<hostelmodel> insertionSort = InsertionSorting.sortByRoom_No(rooms,true);
+            for(hostelmodel roomlist : insertionSort)
+            {
+            addDataToRoomTable(roomlist);//adding sorted list
+            }
+        }
+    }//GEN-LAST:event_btnSortroomsActionPerformed
+
+    private void btnSortbookingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortbookingsActionPerformed
+        
+        tableModelbookings.setRowCount(0);
+        String sortingmethod = (String) cmbBxsortbyBookings.getSelectedItem();
+        if(sortingmethod.equals("Ascending")){  //checking the check box value is either asc or desc
+
+            List<hostelmodel> mergeSort = mergeSorting.sortById(bookings,false);
+            for(hostelmodel bookinglist : mergeSort)
+            {
+            addDataToBookingsTable(bookinglist);
+            }
+        }
+        else{
+
+            List<hostelmodel> mergeSort = mergeSorting.sortById(bookings,true);
+            for(hostelmodel bookinglist : mergeSort)
+            {
+            addDataToBookingsTable(bookinglist);
+            }
+        }
+                
+    }//GEN-LAST:event_btnSortbookingsActionPerformed
+
+    private void jBtnSearchhstlrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchhstlrActionPerformed
+        // TODO add your handling code here:
+         String searchValue = txtFldSearchHosteler.getText().trim();
+         if (searchValue.isEmpty()) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please enter a name to search",
+            "Empty Search",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+        }
+        hostelmodel result = searcher.searchByHosteler_name(searchValue, hosteler, 0, hosteler.size() - 1);
+        if (result != null) {
+        // Creating message with found hosteler's information
+        String message = String.format("""
+                                       Hosteler Found!
+                                       Name: %s
+                                       ID: %s
+                                       Address: %s
+                                       Contact: %s""", result.getHosteler_name(), result.getHosteler_No(), result.getAddress(), result.getContact_No());
+        
+        JOptionPane.showMessageDialog(this,message, "Search Result",JOptionPane.INFORMATION_MESSAGE);
+        } 
+        else {
+        JOptionPane.showMessageDialog(this,"No hosteler found with the name: " + searchValue,"Not Found",JOptionPane.INFORMATION_MESSAGE);
+        
+    }
+    }//GEN-LAST:event_jBtnSearchhstlrActionPerformed
+
+    private void btnSearchRoomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchRoomsActionPerformed
+        // TODO add your handling code here:
+        if (txtFldSearchRooms.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please enter a room no to search",
+            "Empty Search",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+        }
+
+        
+        try
+        {   //try catch if user inputs string or any exceptions
+        
+        int searchValue = Integer.parseInt(txtFldSearchRooms.getText().trim());
+        hostelmodel result = searcher.searchByRoom_No(searchValue, rooms, 0, rooms.size() - 1);
+        if (result != null) {
+        // Creating message with found room information
+        String message = String.format("""
+                                       Room Found!
+                                       Room id: %s
+                                       Total Users: %s
+                                       users Id: %s
+                                       Call lineno: %s""", result.getRoom_No(), result.getTotal_Users(), result.getUsersId(), result.getCalllineno());
+        
+                JOptionPane.showMessageDialog(this,message, "Search Result",JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else {
+            JOptionPane.showMessageDialog(this,"No room is found with the room no: " + searchValue,"Not Found",JOptionPane.INFORMATION_MESSAGE);
+        
+            }
+        }
+        catch(NumberFormatException e1) //catch message if try passes
+        {
+            JOptionPane.showMessageDialog(rootPane,"the input on search should be an Integer.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSearchRoomsActionPerformed
+
+    private void btnSearchBkngsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchBkngsActionPerformed
+        // TODO add your handling code here:
+        String searchValue = txtFldSearchBookings.getText().trim(); 
+         if (searchValue.isEmpty()) { //check and validate empty txtfld
+        JOptionPane.showMessageDialog(
+            this,
+            "Please enter a name to search",
+            "Empty Search",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+        }
+        hostelmodel result = searcher.searchByName(searchValue, bookings, 0, bookings.size() - 1);
+        if (result != null) {
+        // Create message with found Booking's information
+        String message = String.format("""
+                                        Booking Found!
+                                       ID: %s
+                                       Name: %s
+                                       Gender: %s
+                                       Contact: %s
+                                       Address: %s """, result.getId(), result.getName(), result.getGender(), result.getBookings_contact_no(), result.getBookings_address());
+        
+        JOptionPane.showMessageDialog(this,message, "Search Result",JOptionPane.INFORMATION_MESSAGE);
+    } 
+        else {
+        JOptionPane.showMessageDialog(this,"No bookings found with the name: " + searchValue,"Not Found",JOptionPane.INFORMATION_MESSAGE);
+        
+    }
+    }//GEN-LAST:event_btnSearchBkngsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1493,6 +1818,15 @@ public class hostelapp extends javax.swing.JFrame {
     private javax.swing.JTextField TxtfldRoom;
     private javax.swing.JTextField TxtfldUsersId;
     private javax.swing.JTextField TxtfldttlUsers;
+    private javax.swing.JButton btnSearchBkngs;
+    private javax.swing.JButton btnSearchRooms;
+    private javax.swing.JButton btnSortbookings;
+    private javax.swing.JButton btnSortrooms;
+    private javax.swing.JComboBox<String> cmbBxsortbyBookings;
+    private javax.swing.JComboBox<String> cmbBxsortbyRooms;
+    private javax.swing.JComboBox<String> cmbBxsortbyhosteler;
+    private javax.swing.JButton jBtnSearchhstlr;
+    private javax.swing.JButton jBtnsortHstlr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1507,5 +1841,8 @@ public class hostelapp extends javax.swing.JFrame {
     private javax.swing.JLabel lblMainHeading;
     private javax.swing.JScrollPane scrlPnSystmMnt;
     private javax.swing.JTabbedPane tbdPnAdminedit;
+    private javax.swing.JTextField txtFldSearchBookings;
+    private javax.swing.JTextField txtFldSearchHosteler;
+    private javax.swing.JTextField txtFldSearchRooms;
     // End of variables declaration//GEN-END:variables
 }
