@@ -14,31 +14,36 @@ import java.util.List;
  * lmuid: 23048635
  */
 public class selectionSort {
-      public List<hostelmodel> sortByhosteler_No(List<hostelmodel> unsortedData, boolean isDesc) {
-        List<hostelmodel> dataToSort = new ArrayList<>();
-        dataToSort.addAll(unsortedData);
-
-        for (int i = 1; i < dataToSort.size(); i++) {
-            hostelmodel key = dataToSort.get(i);
-            int j = i - 1;
-
+    public List<hostelmodel> sortByhosteler_No(List<hostelmodel> unsortedData, boolean isDesc) {
+    List<hostelmodel> dataToSort = new ArrayList<>();
+    dataToSort.addAll(unsortedData);
+    
+    for (int i = 0; i < dataToSort.size() - 1; i++) {
+        int targetIndex = i;
+        
+        for (int j = i + 1; j < dataToSort.size(); j++) {
             if (isDesc) {
                 // Sort in descending order (largest to smallest)
-                while (j >= 0 && dataToSort.get(j).getHosteler_No() < key.getHosteler_No()) {
-                    dataToSort.set(j + 1, dataToSort.get(j));
-                    j--;
+                if (dataToSort.get(j).getHosteler_No() > dataToSort.get(targetIndex).getHosteler_No()) {
+                    targetIndex = j;
                 }
             } else {
                 // Sort in ascending order (smallest to largest)
-                while (j >= 0 && dataToSort.get(j).getHosteler_No() > key.getHosteler_No()) {
-                    dataToSort.set(j + 1, dataToSort.get(j));
-                    j--;
+                if (dataToSort.get(j).getHosteler_No() < dataToSort.get(targetIndex).getHosteler_No()) {
+                    targetIndex = j;
                 }
             }
-            dataToSort.set(j + 1, key);
         }
-
-        return dataToSort;
+        
+        // Swap elements if needed
+        if (targetIndex != i) {
+            hostelmodel temp = dataToSort.get(i);
+            dataToSort.set(i, dataToSort.get(targetIndex));
+            dataToSort.set(targetIndex, temp);
+        }
     }
+    
+    return dataToSort;
+}
 }
 

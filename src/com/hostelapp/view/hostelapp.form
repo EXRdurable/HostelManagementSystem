@@ -1220,11 +1220,7 @@
                                   <Component id="cmbBxsortbyBookings" min="-2" pref="116" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="btnSortbookings" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
-                                  <Component id="txtFldSearchBookings" min="-2" pref="138" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnSearchBkngs" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="426" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1235,12 +1231,8 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="btnSearchBkngs" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="btnSortbookings" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="btnSortbookings" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="txtFldSearchBookings" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="cmbBxsortbyBookings" max="32767" attributes="0"/>
                                           <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
@@ -1408,16 +1400,6 @@
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnBkngsRemoveActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="txtFldSearchBookings">
-                        </Component>
-                        <Component class="javax.swing.JButton" name="btnSearchBkngs">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Search"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchBkngsActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnSortbookings">

@@ -11,7 +11,6 @@ import com.hostelapp.controller.algorithm.mergeSort;
 import com.hostelapp.controller.algorithm.selectionSort;
 import com.hostelapp.model.hostelmodel;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class hostelapp extends javax.swing.JFrame {
     ArrayList<hostelmodel> hosteler = new ArrayList<hostelmodel>(); //arraylist for hostel table
-    LinkedList<hostelmodel> rooms = new LinkedList<hostelmodel>();  //arraylist for room table
+    ArrayList<hostelmodel> rooms = new ArrayList<hostelmodel>();  //arraylist for room table
     ArrayList<hostelmodel> bookings = new ArrayList<hostelmodel>(); //arraylist for booking table
     private DefaultTableModel tableModelhosteler; 
     private DefaultTableModel tableModelrooms;
@@ -52,7 +51,7 @@ public class hostelapp extends javax.swing.JFrame {
         hostelmodel Hosteler1 = new hostelmodel(123,"Ram","Kathmandu",9876543210L);
         hostelmodel Hosteler2 = new hostelmodel(27,"Hari","Pokhara",123456789L);
         hostelmodel Hosteler3 = new hostelmodel(3678,"Shyam","Lumbuni",891230L);
-        hostelmodel Hosteler4 = new hostelmodel(3678,"Shuva","Chitwan",4891230L);
+        hostelmodel Hosteler4 = new hostelmodel(367,"Shuva","Chitwan",4891230L);
         hostelmodel Hosteler5 = new hostelmodel(378,"Shivam","Narayani",45678L);
         hosteler.add(Hosteler1); // Add Hosteler data to the hosteler list
         addDataToHostelerTable(Hosteler1); // Add Hosteler's data to the hosteler table in the GUI
@@ -96,11 +95,11 @@ public class hostelapp extends javax.swing.JFrame {
     }
     private void addInitialBookingsInformation()
     {
-        hostelmodel Bookings1 = new hostelmodel(1,"Ram","Male",13L,"KTM");
-        hostelmodel Bookings2 = new hostelmodel(2,"Hari","Male",3213L,"London");
-        hostelmodel Bookings3 = new hostelmodel(3,"Shyam","Male",132343L,"Vietnam");
-        hostelmodel Bookings4 = new hostelmodel(4,"Karan","Male",343L,"Norway");
-        hostelmodel Bookings5 = new hostelmodel(5,"Shuva","Male",343L,"Antartica");
+        hostelmodel Bookings1 = new hostelmodel(52,"Ram","Male",13L,"KTM");
+        hostelmodel Bookings2 = new hostelmodel(21,"Mission","Male",323L,"London");
+        hostelmodel Bookings3 = new hostelmodel(33,"Shyam","Male",13234L,"Vietnam");
+        hostelmodel Bookings4 = new hostelmodel(44,"Kartik","Male",34L,"Norway");
+        hostelmodel Bookings5 = new hostelmodel(11,"Shuva","Male",343L,"Antartica");
         bookings.add(Bookings1);    // Add a new row to the booking table with the booking's details
         addDataToBookingsTable(Bookings1);  // Add booking's data to the room table in the GUI
         bookings.add(Bookings2);
@@ -196,8 +195,6 @@ public class hostelapp extends javax.swing.JFrame {
         BtnBkngsUpdate = new javax.swing.JButton();
         TxtFldBkngsId = new javax.swing.JTextField();
         BtnBkngsRemove = new javax.swing.JButton();
-        txtFldSearchBookings = new javax.swing.JTextField();
-        btnSearchBkngs = new javax.swing.JButton();
         btnSortbookings = new javax.swing.JButton();
         cmbBxsortbyBookings = new javax.swing.JComboBox<>();
         PnlLogoHldr = new javax.swing.JPanel();
@@ -904,13 +901,6 @@ public class hostelapp extends javax.swing.JFrame {
             }
         });
 
-        btnSearchBkngs.setText("Search");
-        btnSearchBkngs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchBkngsActionPerformed(evt);
-            }
-        });
-
         btnSortbookings.setText("Sort");
         btnSortbookings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -953,11 +943,7 @@ public class hostelapp extends javax.swing.JFrame {
                 .addComponent(cmbBxsortbyBookings, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSortbookings)
-                .addGap(139, 139, 139)
-                .addComponent(txtFldSearchBookings, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSearchBkngs)
-                .addGap(59, 59, 59))
+                .addGap(426, 426, 426))
         );
         PnlBookingEditLayout.setVerticalGroup(
             PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -966,10 +952,7 @@ public class hostelapp extends javax.swing.JFrame {
                 .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlBookingEditLayout.createSequentialGroup()
                         .addGap(0, 6, Short.MAX_VALUE)
-                        .addGroup(PnlBookingEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSearchBkngs, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSortbookings, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(txtFldSearchBookings)
+                        .addComponent(btnSortbookings))
                     .addGroup(PnlBookingEditLayout.createSequentialGroup()
                         .addComponent(cmbBxsortbyBookings)
                         .addGap(1, 1, 1)))
@@ -1633,8 +1616,10 @@ public class hostelapp extends javax.swing.JFrame {
 
     private void jBtnSearchhstlrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchhstlrActionPerformed
         // TODO add your handling code here:
-         String searchValue = txtFldSearchHosteler.getText().trim();
-         if (searchValue.isEmpty()) {
+        List<hostelmodel> selectionSort = SelectionSorting.sortByhosteler_No(hosteler,false);
+            
+        String searchValue = txtFldSearchHosteler.getText().trim();
+        if (searchValue.isEmpty()) {
         JOptionPane.showMessageDialog(
             this,
             "Please enter a name to search",
@@ -1643,7 +1628,7 @@ public class hostelapp extends javax.swing.JFrame {
         );
         return;
         }
-        hostelmodel result = searcher.searchByHosteler_name(searchValue, hosteler, 0, hosteler.size() - 1);
+        hostelmodel result = searcher.searchByHosteler_name(searchValue, selectionSort, 0, selectionSort.size() - 1);
         if (result != null) {
         // Creating message with found hosteler's information
         String message = String.format("""
@@ -1673,12 +1658,12 @@ public class hostelapp extends javax.swing.JFrame {
         return;
         }
 
-        
+        List<hostelmodel> insertionSort = InsertionSorting.sortByRoom_No(rooms,false);
         try
         {   //try catch if user inputs string or any exceptions
         
         int searchValue = Integer.parseInt(txtFldSearchRooms.getText().trim());
-        hostelmodel result = searcher.searchByRoom_No(searchValue, rooms, 0, rooms.size() - 1);
+        hostelmodel result = searcher.searchByRoom_No(searchValue, insertionSort, 0, insertionSort.size() - 1);
         if (result != null) {
         // Creating message with found room information
         String message = String.format("""
@@ -1700,37 +1685,6 @@ public class hostelapp extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane,"the input on search should be an Integer.","Alert",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnSearchRoomsActionPerformed
-
-    private void btnSearchBkngsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchBkngsActionPerformed
-        // TODO add your handling code here:
-        String searchValue = txtFldSearchBookings.getText().trim(); 
-         if (searchValue.isEmpty()) { //check and validate empty txtfld
-        JOptionPane.showMessageDialog(
-            this,
-            "Please enter a name to search",
-            "Empty Search",
-            JOptionPane.WARNING_MESSAGE
-        );
-        return;
-        }
-        hostelmodel result = searcher.searchByName(searchValue, bookings, 0, bookings.size() - 1);
-        if (result != null) {
-        // Create message with found Booking's information
-        String message = String.format("""
-                                        Booking Found!
-                                       ID: %s
-                                       Name: %s
-                                       Gender: %s
-                                       Contact: %s
-                                       Address: %s """, result.getId(), result.getName(), result.getGender(), result.getBookings_contact_no(), result.getBookings_address());
-        
-        JOptionPane.showMessageDialog(this,message, "Search Result",JOptionPane.INFORMATION_MESSAGE);
-    } 
-        else {
-        JOptionPane.showMessageDialog(this,"No bookings found with the name: " + searchValue,"Not Found",JOptionPane.INFORMATION_MESSAGE);
-        
-    }
-    }//GEN-LAST:event_btnSearchBkngsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1818,7 +1772,6 @@ public class hostelapp extends javax.swing.JFrame {
     private javax.swing.JTextField TxtfldRoom;
     private javax.swing.JTextField TxtfldUsersId;
     private javax.swing.JTextField TxtfldttlUsers;
-    private javax.swing.JButton btnSearchBkngs;
     private javax.swing.JButton btnSearchRooms;
     private javax.swing.JButton btnSortbookings;
     private javax.swing.JButton btnSortrooms;
@@ -1841,7 +1794,6 @@ public class hostelapp extends javax.swing.JFrame {
     private javax.swing.JLabel lblMainHeading;
     private javax.swing.JScrollPane scrlPnSystmMnt;
     private javax.swing.JTabbedPane tbdPnAdminedit;
-    private javax.swing.JTextField txtFldSearchBookings;
     private javax.swing.JTextField txtFldSearchHosteler;
     private javax.swing.JTextField txtFldSearchRooms;
     // End of variables declaration//GEN-END:variables
